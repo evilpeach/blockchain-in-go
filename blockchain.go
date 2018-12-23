@@ -23,6 +23,9 @@ func (bc *Blockchain) AddBlock(data string) {
 
 		return nil
 	})
+	if err != nil {
+		log.Panic(err)
+	}
 
 	// mining newblock
 	newBlock := NewBlock(data, lastHash)
@@ -30,16 +33,29 @@ func (bc *Blockchain) AddBlock(data string) {
 	err = bc.db.Update(func(tx *bolt.Tx) error {
 		b := tx.Bucket([]byte(blocksBucket))
 		err := b.Put(newBlock.Hash, newBlock.Serialize())
+		if err != nil {
+			log.Panic(err)
+		}
+
 		err = b.Put([]byte("l"), newBlock.Hash)
+		if err != nil {
+			log.Panic(err)
+		}
 		bc.tip = newBlock.Hash
 
 		return nil
 	})
+	if err != nil {
+		log.Panic(err)
+	}
 }
 
 func NewBlockchain() *Blockchain {
 	var tip []byte
 	db, err := bolt.Open(dbFile, 0600, nil)
+	if err != nil {
+		log.Panic(err)
+	}
 
 	err = db.Update(func(tx *bolt.Tx) error {
 		b := tx.Bucket([]byte(blocksBucket))
