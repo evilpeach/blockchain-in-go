@@ -6,7 +6,6 @@ import (
 	"fmt"
 	"math"
 	"math/big"
-	"strconv"
 )
 
 type ProofOfWork struct {
@@ -20,9 +19,9 @@ var (
 
 const targetBits = 24
 
-func IntToHex(input int64) []byte {
-	return []byte(strconv.FormatInt(input, 16))
-}
+// func IntToHex(input int64) []byte {
+// 	return []byte(strconv.FormatInt(input, 16))
+// }
 
 func NewProofOfWork(b *Block) *ProofOfWork {
 	target := big.NewInt(1)
