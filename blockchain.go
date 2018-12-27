@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"log"
 
 	"github.com/boltdb/bolt"
@@ -92,6 +93,7 @@ func NewBlockchain() *Blockchain {
 
 		// cannot find any db, just create new one.
 		if b == nil {
+			fmt.Println("Can not found blockchain database. So creating genesis.")
 			genesis := NewGenesisBlock()
 			b, err := tx.CreateBucket([]byte(blocksBucket))
 			if err != nil {
